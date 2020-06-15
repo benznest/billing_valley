@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         "/index" : (_)=> SplashScreen(),
         "/home" : (_)=> HomeScreen(),
         "./" : (_)=> HomeScreen(),
+        "/" : (_)=> HomeScreen(),
       },
       initialRoute: "/index",
     );
