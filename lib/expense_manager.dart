@@ -1,57 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:fluttershareexpense/expense_item.dart';
-import 'package:fluttershareexpense/expense_item_controller.dart';
+import 'package:fluttershareexpense/expense_group.dart';
 
-class ExpenseManager {
-  double deliver = 0;
-  double discount = 0;
-  double total = 0;
+import 'expense_item_controller.dart';
 
-  List<ExpenseItemController> listExpenseItemController;
-
+class ExpenseManager{
   TextEditingController deliverController;
   TextEditingController discountController;
-  TextEditingController totalController;
-
+  double deliver;
+  double discount;
+  List<ExpenseGroup> listExpenseGroup;
   OnCalculationDone onCalculationChanged;
 
-  ExpenseManager({this.onCalculationChanged}) {
+
+  ExpenseManager({this.deliver=0,
+      this.discount=0, this.onCalculationChanged}){
     init();
   }
 
   init() {
-    var item = ExpenseItem();
-    listExpenseItemController = [
-      ExpenseItemController(item, onCalculateDone: () {
-        calculate();
-      })
-    ];
+    ExpenseGroup expenseGroup = ExpenseGroup(onCalculationChanged: onCalculationChanged);
+
+    listExpenseGroup = [expenseGroup];
     deliverController = TextEditingController(text: "");
     discountController = TextEditingController(text: "");
-    totalController = TextEditingController(text: "ไม่มีข้อมูล");
   }
 
-  removeItem(int index) {
-    listExpenseItemController.removeAt(index);
+  addGroup(){
+    ExpenseGroup group = ExpenseGroup(onCalculationChanged: onCalculationChanged);
+    listExpenseGroup.add(group);
     calculate();
   }
 
-  addItemEmpty() {
-    listExpenseItemController.add(ExpenseItemController(ExpenseItem(), onCalculateDone: () {
-      calculate();
-    }));
+  deleteGroup(int index){
+    listExpenseGroup.removeAt(index);
+    calculate();
   }
 
-  calculate() {
-    total = 0;
-    for (ExpenseItemController item in listExpenseItemController) {
-      total += item.total;
-    }
-
-    total = total + deliver - discount;
-    totalController.text = "รวม ${total.toString()} บาท";
-    if (onCalculationChanged != null) {
-      onCalculationChanged();
+  calculate(){
+    for(ExpenseGroup group in listExpenseGroup){
+      group.deliver = (deliver / listExpenseGroup.length).ceilToDouble();
+      group.discount = (discount / listExpenseGroup.length).ceilToDouble();
+      group.calculate();
     }
   }
 }

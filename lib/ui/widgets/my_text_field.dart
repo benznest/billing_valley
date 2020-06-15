@@ -33,6 +33,13 @@ class MyTextFieldTheme {
   MyTextFieldTheme.red()
       : background = Colors.red[300].withOpacity(0.2),
         textColor = Colors.red[600];
+  MyTextFieldTheme.pink()
+      : background = Colors.pink[300].withOpacity(0.2),
+        textColor = Colors.pink[600];
+
+  MyTextFieldTheme.orange()
+      : background = Colors.orange[300].withOpacity(0.2),
+        textColor = Colors.orange[600];
 
 }
 
