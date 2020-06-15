@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_item.dart';
 import 'package:fluttershareexpense/expense_item_controller.dart';
 import 'package:fluttershareexpense/expense_group.dart';
+import 'package:fluttershareexpense/hand_cursor.dart';
 import 'package:fluttershareexpense/ui/dialogs/summary_dialog.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_group_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_header_widget.dart';
@@ -182,15 +183,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Color(0xfff1c40f),
-        elevation: 0,
-        icon: Icon(Icons.check),
-        label: Text("สรุปผล",
-            style: GoogleFonts.mitr(color: Colors.white, fontSize: 18)),
-        onPressed: () {
-          SummaryDialog.show(context,expenseManager);
-        },
+      floatingActionButton: HandCursor(
+        child: FloatingActionButton.extended(
+          backgroundColor: Color(0xfff1c40f),
+          elevation: 0,
+          icon: Icon(Icons.check),
+          label: Text("สรุปผล",
+              style: GoogleFonts.mitr(color: Colors.white, fontSize: 18)),
+          onPressed: () {
+            SummaryDialog.show(context,expenseManager);
+          },
+        ),
       ),
     );
   }
