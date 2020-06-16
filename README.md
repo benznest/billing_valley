@@ -1,16 +1,11 @@
-# fluttershareexpense
+# Billing Valley (Base on Flutter Web)
 
-A new Flutter application.
+Web apps calculate delivery and delivery discounts.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+[Try using it](https://github.com/benznest/billing_valley/web/)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Billing Valley ](screenshots/1.png)
+![Billing Valley ](screenshots/2.png)
+![Billing Valley ](screenshots/3.png)
