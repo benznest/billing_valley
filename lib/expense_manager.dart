@@ -3,7 +3,7 @@ import 'package:fluttershareexpense/expense_group.dart';
 
 import 'expense_item_controller.dart';
 
-class ExpenseManager{
+class ExpenseManager {
   TextEditingController deliverController;
   TextEditingController discountController;
   double deliver;
@@ -11,9 +11,7 @@ class ExpenseManager{
   List<ExpenseGroup> listExpenseGroup;
   OnCalculationDone onCalculationChanged;
 
-
-  ExpenseManager({this.deliver=0,
-      this.discount=0, this.onCalculationChanged}){
+  ExpenseManager({this.deliver = 0, this.discount = 0, this.onCalculationChanged}) {
     init();
   }
 
@@ -25,21 +23,34 @@ class ExpenseManager{
     discountController = TextEditingController(text: "");
   }
 
-  addGroup(){
+  addGroup() {
     ExpenseGroup group = ExpenseGroup(onCalculationChanged: onCalculationChanged);
     listExpenseGroup.add(group);
     calculate();
   }
 
-  deleteGroup(int index){
+  deleteGroup(int index) {
     listExpenseGroup.removeAt(index);
     calculate();
   }
 
-  calculate(){
-    for(ExpenseGroup group in listExpenseGroup){
-      group.deliver = (deliver / listExpenseGroup.length).ceilToDouble();
-      group.discount = (discount / listExpenseGroup.length).ceilToDouble();
+  calculate() {
+    int countExpenseGroupPayDelivery = listExpenseGroup.where((e) => e.isPayDeliver).toList().length;
+    int countExpenseGroupGetDiscount = listExpenseGroup.where((e) => e.isGetDiscount).toList().length;
+
+    for (ExpenseGroup group in listExpenseGroup) {
+      if (group.isPayDeliver) {
+        group.deliver = (deliver / countExpenseGroupPayDelivery).ceilToDouble();
+      } else {
+        group.deliver = 0;
+      }
+
+      if (group.isGetDiscount) {
+        group.discount = (discount / countExpenseGroupGetDiscount).ceilToDouble();
+      } else {
+        group.discount = 0;
+      }
+
       group.calculate();
     }
   }

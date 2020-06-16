@@ -17,8 +17,11 @@ class ExpenseGroup {
 
   OnCalculationDone onCalculationChanged;
 
+  bool isPayDeliver;
+  bool isGetDiscount;
+
   ExpenseGroup(
-      {this.deliver = 0, this.discount = 0, this.onCalculationChanged}) {
+      {this.deliver = 0, this.discount = 0, this.onCalculationChanged,this.isPayDeliver = true,this.isGetDiscount =true}) {
     init();
   }
 

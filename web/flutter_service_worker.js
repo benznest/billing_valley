@@ -8,19 +8,20 @@ const RESOURCES = {
 "assets/assets/icons/carbohydrates.png": "7f16cbd71f3c9ea7bac7f7da6996d150",
 "assets/assets/icons/egg.png": "29062d8a500a934581e16ad3407dc6e6",
 "assets/assets/icons/food.png": "e52894a42739b9aa743a10f8dd7801c7",
+"assets/assets/icons/girl.png": "3d5b13c92201452a74274aaa2f66b493",
 "assets/assets/icons/meal.png": "546f5ec213ea5f4fca95be97f8bf445d",
 "assets/assets/icons/meat.png": "2dcf66807161983fd0a5f35b7ef6a088",
 "assets/assets/icons/sandwich.png": "4f1aec8c0395ca0a7045aaa485b9f9a7",
 "assets/FontManifest.json": "01700ba55b08a6141f33e168c4a6c22f",
 "assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
-"assets/NOTICES": "b417fdbb01d8bbde32ca38a3573bfd90",
+"assets/NOTICES": "41ef8419084ed9142556aff5bd21f498",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"favicon.png": "d5229c38292973706b359598e9b9a23e",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "index.html": "3db9060e285bcafa635ac7a67c498393",
 "/": "3db9060e285bcafa635ac7a67c498393",
-"main.dart.js": "07fb79591cd5bf94ff61490345643560",
+"main.dart.js": "004482a30ff21817220113a2f65d1cf4",
 "manifest.json": "a735002b19b5b7225ea42f55122775d9"
 };
 

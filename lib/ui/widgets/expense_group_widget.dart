@@ -3,6 +3,7 @@ import 'package:fluttershareexpense/expense_group.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_header_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_total_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_widget.dart';
+import 'package:fluttershareexpense/ui/widgets/my_checkbox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'my_card.dart';
@@ -28,8 +29,12 @@ class ExpenseGroupWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Row(children: [
+            Image.asset("assets/icons/girl.png",width: 50,),
+            SizedBox(
+              width: 8,
+            ),
             Text(
-              "ชื่อกลุ่ม",
+              "ชื่อ",
               style: GoogleFonts.mitr(fontSize: 16),
               textAlign: TextAlign.center,
             ),
@@ -143,7 +148,9 @@ class ExpenseGroupWidget extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          ExpenseItemTotalWidget(group),
+          ExpenseItemTotalWidget(group,onChanged: (g){
+            update();
+          }),
           SizedBox(
             height: 16,
           ),

@@ -91,7 +91,7 @@ class SummaryDialog extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(12)),
               child: Image.asset(
-                "assets/icons/${getImageAsset(index)}.png",
+                "assets/icons/girl.png",
                 width: 50,
               ),
             ),
@@ -126,12 +126,12 @@ class SummaryDialog extends StatelessWidget {
     );
   }
 
-  String getImageAsset(int index){
-    List<String> listAsset = ["breakfast","carbohydrates","food","meal","meat","sandwich"];
-    if(index < listAsset.length){
-      return listAsset[index];
-    }
-
-    return listAsset.last;
-  }
+//  String getImageAsset(int index){
+//    List<String> listAsset = ["breakfast","carbohydrates","food","meal","meat","sandwich"];
+//    if(index < listAsset.length){
+//      return listAsset[index];
+//    }
+//
+//    return listAsset.last;
+//  }
 }

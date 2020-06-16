@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
               enableDeleteGroup: expenseManager.listExpenseGroup.length > 1,
               onGroupChanged: () {
                 setState(() {
-                  //
+                  expenseManager.calculate();
                 });
               },
               onDeleteGroup: () {
