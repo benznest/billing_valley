@@ -1,6 +1,6 @@
 # Billing Valley (Base on Flutter Web)
 
-Web apps calculate delivery and delivery discounts.
+Web apps calculate delivery cost and discount.
 
 ## Getting Started
 
