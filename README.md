@@ -4,7 +4,7 @@ Web apps calculate delivery and delivery discounts.
 
 ## Getting Started
 
-[Try using it](https://github.com/benznest/billing_valley/web/)
+[Try using it](https://benznest.github.io/billing_valley/web/)
 
 ![Billing Valley ](screenshots/1.png)
 ![Billing Valley ](screenshots/2.png)
