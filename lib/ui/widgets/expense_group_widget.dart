@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_group.dart';
+import 'package:fluttershareexpense/group_icon.dart';
+import 'package:fluttershareexpense/ui/dialogs/choose_icon_dialog.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_header_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_total_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_widget.dart';
@@ -29,7 +31,28 @@ class ExpenseGroupWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Row(children: [
-            Image.asset("assets/icons/girl.png",width: 50,),
+            GestureDetector(
+              onTap: (){
+                ChooseIconDialog.show(context,onIconSelected: (newIcon){
+                  group.icon = newIcon;
+                  update();
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        GroupIcon.getAsset(group.icon),
+                        width: 50,
+                      ),
+                      Icon(Icons.arrow_drop_down,size: 36,color: Colors.grey[500],)
+                    ],
+                  )),
+            ),
             SizedBox(
               width: 8,
             ),
@@ -50,7 +73,7 @@ class ExpenseGroupWidget extends StatelessWidget {
             Spacer(),
             GestureDetector(
               onTap: () {
-                if(enableDeleteGroup) {
+                if (enableDeleteGroup) {
                   if (onDeleteGroup != null) {
                     onDeleteGroup();
                   }
@@ -68,7 +91,8 @@ class ExpenseGroupWidget extends StatelessWidget {
                     ),
                     Text(
                       "ลบกลุ่ม",
-                      style: GoogleFonts.mitr(fontSize: 20, color: Colors.white),
+                      style:
+                          GoogleFonts.mitr(fontSize: 20, color: Colors.white),
                     ),
                     SizedBox(
                       width: 8,
@@ -148,13 +172,12 @@ class ExpenseGroupWidget extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          ExpenseItemTotalWidget(group,onChanged: (g){
+          ExpenseItemTotalWidget(group, onChanged: (g) {
             update();
           }),
           SizedBox(
             height: 16,
           ),
-
         ],
       ),
     );

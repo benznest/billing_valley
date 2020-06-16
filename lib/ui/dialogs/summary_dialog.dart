@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_group.dart';
+import 'package:fluttershareexpense/group_icon.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../expense_manager.dart';
@@ -22,7 +23,7 @@ class SummaryDialog extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(16),
           width: 500,
-          height: MediaQuery.of(context).size.height*0.9,
+          height: MediaQuery.of(context).size.height*0.6,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(12)),
           child: Column(
@@ -61,7 +62,7 @@ class SummaryDialog extends StatelessWidget {
                         ),
                       ]),
                   decoration: BoxDecoration(
-                      color: Color(0xff2c3e50),
+                      color: Colors.pink[300],
                       borderRadius: BorderRadius.circular(12)),
                 ),
               )
@@ -91,7 +92,7 @@ class SummaryDialog extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(12)),
               child: Image.asset(
-                "assets/icons/girl.png",
+                GroupIcon.getAsset(expenseGroup.icon),
                 width: 50,
               ),
             ),

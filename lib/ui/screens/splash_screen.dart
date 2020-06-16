@@ -3,7 +3,6 @@ import 'package:fluttershareexpense/hand_cursor.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../my_theme.dart';
-
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

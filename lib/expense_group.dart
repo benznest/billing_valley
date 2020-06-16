@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_item.dart';
 import 'package:fluttershareexpense/expense_item_controller.dart';
+import 'package:fluttershareexpense/group_icon.dart';
 
 class ExpenseGroup {
+  String icon;
   double total = 0;
   double deliver = 0;
   double discount = 0;
@@ -21,7 +23,12 @@ class ExpenseGroup {
   bool isGetDiscount;
 
   ExpenseGroup(
-      {this.deliver = 0, this.discount = 0, this.onCalculationChanged,this.isPayDeliver = true,this.isGetDiscount =true}) {
+      {this.icon = GroupIcon.GIRL_1,
+      this.deliver = 0,
+      this.discount = 0,
+      this.onCalculationChanged,
+      this.isPayDeliver = true,
+      this.isGetDiscount = true}) {
     init();
   }
 
