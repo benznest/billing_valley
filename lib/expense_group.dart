@@ -1,80 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:fluttershareexpense/expense_item.dart';
-import 'package:fluttershareexpense/expense_item_controller.dart';
-import 'package:fluttershareexpense/group_icon.dart';
+import 'package:fluttershareexpense/expense_person.dart';
+
+import 'expense_item_controller.dart';
 
 class ExpenseGroup {
-  String icon;
-  double total = 0;
-  double deliver = 0;
-  double discount = 0;
-
-  List<ExpenseItemController> listExpenseItemController;
-
-  TextEditingController titleGroupController;
-  TextEditingController sumExpenseController;
-  TextEditingController deliverGroupController;
-  TextEditingController discountGroupController;
-  TextEditingController totalGroupController;
-
+  int id;
+  String title;
+  TextEditingController deliverController;
+  TextEditingController discountController;
+  double deliver;
+  double discount;
+  List<ExpensePerson> listExpensePerson;
   OnCalculationDone onCalculationChanged;
 
-  bool isPayDeliver;
-  bool isGetDiscount;
-
-  ExpenseGroup(
-      {this.icon = GroupIcon.GIRL_1,
-      this.deliver = 0,
-      this.discount = 0,
-      this.onCalculationChanged,
-      this.isPayDeliver = true,
-      this.isGetDiscount = true}) {
+  ExpenseGroup({this.id, this.title = "", this.deliver = 0, this.discount = 0, this.listExpensePerson,this.onCalculationChanged}) {
+    id = id ?? (DateTime.now().millisecondsSinceEpoch / 1000).toInt();
     init();
   }
 
-  init() {
-    var item = ExpenseItem();
-    listExpenseItemController = [
-      ExpenseItemController(item, onCalculateDone: () {
-        calculate();
-      })
-    ];
-    totalGroupController = TextEditingController(text: "-");
-    deliverGroupController = TextEditingController(text: "-");
-    discountGroupController = TextEditingController(text: "-");
-    sumExpenseController = TextEditingController(text: "-");
-    titleGroupController = TextEditingController(text: "");
+  factory ExpenseGroup.fromJson(Map<String, dynamic> json) {
+    return ExpenseGroup(
+      id: int.parse(json["id"]),
+      title: json["title"],
+      deliver: double.parse(json["deliver"]),
+      discount: double.parse(json["discount"]),
+      listExpensePerson: List.of(json["listExpensePerson"]).map((map) => ExpensePerson.fromJson(map)).toList(),
+    );
   }
 
-  String get titleGroup => titleGroupController.text;
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "title": this.title,
+      "deliver": this.deliver,
+      "discount": this.discount,
+      "listExpensePerson": this.listExpensePerson.map((e) => e.toJson()).toList(),
+    };
+  }
 
-  removeItem(int index) {
-    listExpenseItemController.removeAt(index);
+  init() {
+    ExpensePerson expenseGroup = ExpensePerson(onCalculationChanged: onCalculationChanged);
+
+    listExpensePerson = [expenseGroup];
+    deliverController = TextEditingController(text: "");
+    discountController = TextEditingController(text: "");
+  }
+
+  addExpensePerson() {
+    ExpensePerson person = ExpensePerson(onCalculationChanged: onCalculationChanged);
+    listExpensePerson.add(person);
     calculate();
   }
 
-  addItemEmpty() {
-    listExpenseItemController
-        .add(ExpenseItemController(ExpenseItem(), onCalculateDone: () {
-      calculate();
-    }));
+  deleteExpensePerson(int index) {
+    listExpensePerson.removeAt(index);
+    calculate();
   }
 
   calculate() {
-    deliverGroupController.text = "${deliver.toString()}";
-    discountGroupController.text = "${discount.toString()}";
+    int countExpensePersonPayDelivery = listExpensePerson.where((e) => e.isPayDeliver).toList().length;
+    int countExpensePersonGetDiscount = listExpensePerson.where((e) => e.isGetDiscount).toList().length;
 
-    double sum = 0;
-    for (ExpenseItemController item in listExpenseItemController) {
-      sum += item.total;
-    }
+    for (ExpensePerson person in listExpensePerson) {
+      if (person.isPayDeliver) {
+        person.deliver = (deliver / countExpensePersonPayDelivery);
+      } else {
+        person.deliver = 0;
+      }
 
-    sumExpenseController.text = "${sum.toString()}";
+      if (person.isGetDiscount) {
+        person.discount = (discount / countExpensePersonGetDiscount);
+      } else {
+        person.discount = 0;
+      }
 
-    total = sum + deliver - discount;
-    totalGroupController.text = "${total.toString()}";
-    if (onCalculationChanged != null) {
-      onCalculationChanged();
+      person.calculate();
     }
   }
 }

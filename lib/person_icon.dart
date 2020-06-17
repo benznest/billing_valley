@@ -1,4 +1,4 @@
-class GroupIcon {
+class PersonIcon {
   static const String GIRL_1 = "girl_1";
   static const String GIRL_2 = "girl_2";
   static const String GIRL_3 = "girl_3";
@@ -12,7 +12,7 @@ class GroupIcon {
   static const String BOY_5 = "boy_5";
   static const String BOY_6 = "boy_6";
 
-  static const List<String> groupIcons = [
+  static const List<String> icons = [
     GIRL_1,
     GIRL_2,
     GIRL_3,

@@ -18,7 +18,7 @@ class ExpenseItemHeaderWidget extends StatelessWidget {
           Expanded(
               flex: 1,
               child: Text(
-                "ชื่อรายการ",
+                "ชื่อรายการอาหาร",
                 style: GoogleFonts.mitr(fontSize: 16),
                 textAlign: TextAlign.center,
               )),

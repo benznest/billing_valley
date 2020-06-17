@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttershareexpense/expense_group.dart';
-import 'package:fluttershareexpense/group_icon.dart';
+import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/person_icon.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../expense_manager.dart';
+import '../../expense_group.dart';
 import '../widgets/my_card.dart';
 
 class ChooseIconDialog extends StatelessWidget {
@@ -31,7 +31,7 @@ class ChooseIconDialog extends StatelessWidget {
             spacing: 12,
             runSpacing: 12,
             children: [
-              for (String id in GroupIcon.groupIcons)
+              for (String id in PersonIcon.icons)
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -45,7 +45,7 @@ class ChooseIconDialog extends StatelessWidget {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(12)),
                       child: Image.asset(
-                        GroupIcon.getAsset(id),
+                        PersonIcon.getAsset(id),
                         width: 80,
                       )),
                 ),

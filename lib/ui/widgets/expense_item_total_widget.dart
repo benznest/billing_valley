@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/ui/widgets/my_checkbox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../expense_group.dart';
+import '../../expense_person.dart';
 import 'my_text_field.dart';
 
 class ExpenseItemTotalWidget extends StatelessWidget {
-  final ExpenseGroup expenseGroup;
-  final Function(ExpenseGroup) onChanged;
+  final ExpensePerson expensePerson;
+  final Function(ExpensePerson) onChanged;
 
-  ExpenseItemTotalWidget(this.expenseGroup,{this.onChanged});
+  ExpenseItemTotalWidget(this.expensePerson,{this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: MyTextField.build(
-                          controller: expenseGroup.sumExpenseController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.primary()),
+                          controller: expensePerson.sumExpenseController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.primary()),
                     ),
                     SizedBox(
                       width: 8,
@@ -50,12 +50,12 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                 children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     MyCheckBox(
-                      value: expenseGroup.isPayDeliver,
+                      value: expensePerson.isPayDeliver,
                       color: Colors.pink[400],
                       onChanged: (v){
-                        expenseGroup.isPayDeliver = v;
+                        expensePerson.isPayDeliver = v;
                         if(onChanged != null){
-                          onChanged(expenseGroup);
+                          onChanged(expensePerson);
                         }
                       },
                     ),
@@ -71,18 +71,21 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                   SizedBox(
                     height: 4,
                   ),
-                  Row(children: [
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: MyTextField.build(
-                          controller: expenseGroup.deliverGroupController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.pink()),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                  ]),
+                  Visibility(
+                    visible: expensePerson.isPayDeliver ,
+                    child: Row(children: [
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: MyTextField.build(
+                            controller: expensePerson.deliverPersonController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.pink()),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                    ]),
+                  ),
                 ],
               )),
           Expanded(
@@ -91,12 +94,12 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                 children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     MyCheckBox(
-                      value: expenseGroup.isGetDiscount,
+                      value: expensePerson.isGetDiscount,
                       color: Colors.orange[400],
                       onChanged: (v){
-                        expenseGroup.isGetDiscount = v;
+                        expensePerson.isGetDiscount = v;
                         if(onChanged != null){
-                          onChanged(expenseGroup);
+                          onChanged(expensePerson);
                         }
                       },
                     ),
@@ -112,18 +115,21 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                   SizedBox(
                     height: 4,
                   ),
-                  Row(children: [
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: MyTextField.build(
-                          controller: expenseGroup.discountGroupController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.orange()),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                  ]),
+                  Visibility(
+                    visible: expensePerson.isGetDiscount,
+                    child: Row(children: [
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: MyTextField.build(
+                            controller: expensePerson.discountPersonController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.orange()),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                    ]),
+                  ),
                 ],
               )),
           Expanded(
@@ -144,7 +150,7 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: MyTextField.build(
-                          controller: expenseGroup.totalGroupController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.green()),
+                          controller: expensePerson.totalPersonController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.green()),
                     ),
                     SizedBox(
                       width: 8,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttershareexpense/expense_group.dart';
-import 'package:fluttershareexpense/group_icon.dart';
+import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/ui/dialogs/choose_icon_dialog.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_header_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_total_widget.dart';
@@ -11,17 +11,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'my_card.dart';
 import 'my_text_field.dart';
 
-class ExpenseGroupWidget extends StatelessWidget {
-  final bool enableDeleteGroup;
-  final ExpenseGroup group;
-  final Function() onGroupChanged;
-  final Function() onDeleteGroup;
+class ExpensePersonWidget extends StatelessWidget {
+  final bool enableDeleteExpensePerson;
+  final ExpensePerson expensePerson;
+  final Function() onChanged;
+  final Function() onDelete;
 
-  ExpenseGroupWidget(
-      {@required this.group,
-      this.onGroupChanged,
-      this.enableDeleteGroup = true,
-      this.onDeleteGroup});
+  ExpensePersonWidget(
+      {@required this.expensePerson,
+      this.onChanged,
+      this.enableDeleteExpensePerson = true,
+      this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class ExpenseGroupWidget extends StatelessWidget {
             GestureDetector(
               onTap: (){
                 ChooseIconDialog.show(context,onIconSelected: (newIcon){
-                  group.icon = newIcon;
+                  expensePerson.icon = newIcon;
                   update();
                 });
               },
@@ -46,7 +46,7 @@ class ExpenseGroupWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Image.asset(
-                        GroupIcon.getAsset(group.icon),
+                        PersonIcon.getAsset(expensePerson.icon),
                         width: 50,
                       ),
                       Icon(Icons.arrow_drop_down,size: 36,color: Colors.grey[500],)
@@ -66,21 +66,21 @@ class ExpenseGroupWidget extends StatelessWidget {
             ),
             Expanded(
                 child: MyTextField.build(
-                    controller: group.titleGroupController,
+                    controller: expensePerson.titlePersonController,
                     fontSize: 22,
                     textAlign: TextAlign.center,
                     hintText: "..")),
             Spacer(),
             GestureDetector(
               onTap: () {
-                if (enableDeleteGroup) {
-                  if (onDeleteGroup != null) {
-                    onDeleteGroup();
+                if (enableDeleteExpensePerson) {
+                  if (onDelete != null) {
+                    onDelete();
                   }
                 }
               },
               child: Opacity(
-                opacity: enableDeleteGroup ? 1 : 0.3,
+                opacity: enableDeleteExpensePerson ? 1 : 0.3,
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -90,7 +90,7 @@ class ExpenseGroupWidget extends StatelessWidget {
                       size: 32,
                     ),
                     Text(
-                      "ลบกลุ่ม",
+                      "ลบ",
                       style:
                           GoogleFonts.mitr(fontSize: 20, color: Colors.white),
                     ),
@@ -119,9 +119,9 @@ class ExpenseGroupWidget extends StatelessWidget {
           SizedBox(
             height: 8,
           ),
-          for (int i = 0; i < group.listExpenseItemController.length; i++)
-            ExpenseItemWidget(i, group.listExpenseItemController[i],
-                enableRemove: group.listExpenseItemController.length > 1,
+          for (int i = 0; i < expensePerson.listExpenseItemController.length; i++)
+            ExpenseItemWidget(i, expensePerson.listExpenseItemController[i],
+                enableRemove: expensePerson.listExpenseItemController.length > 1,
                 onPriceChanged: (controller, price) {
               controller.expenseItem.price = price;
               controller.calculate();
@@ -131,14 +131,14 @@ class ExpenseGroupWidget extends StatelessWidget {
               controller.calculate();
               update();
             }, onRemoveItem: () {
-              group.removeItem(i);
+              expensePerson.removeItem(i);
             }),
           SizedBox(
             height: 16,
           ),
           GestureDetector(
             onTap: () {
-              group.addItemEmpty();
+              expensePerson.addItemEmpty();
               update();
             },
             child: Container(
@@ -172,7 +172,7 @@ class ExpenseGroupWidget extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          ExpenseItemTotalWidget(group, onChanged: (g) {
+          ExpenseItemTotalWidget(expensePerson, onChanged: (g) {
             update();
           }),
           SizedBox(
@@ -184,8 +184,8 @@ class ExpenseGroupWidget extends StatelessWidget {
   }
 
   update() {
-    if (onGroupChanged != null) {
-      onGroupChanged();
+    if (onChanged != null) {
+      onChanged();
     }
   }
 }
