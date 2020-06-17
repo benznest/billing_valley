@@ -24,11 +24,11 @@ class ExpenseGroupStorage{
     await save(list);
   }
 
-  static Future delete(ExpenseGroup debt) async {
+  static Future delete(ExpenseGroup group) async {
     List<ExpenseGroup> list = await getAll();
 
     list.removeWhere((d) {
-      return d.id == debt.id;
+      return d.id == group.id;
     });
 
     await save(list);
@@ -45,20 +45,21 @@ class ExpenseGroupStorage{
   static Future<List<ExpenseGroup>> getAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String str = prefs.getString(KEY_EXPENSE_GROUP_LIST);
-
-    List<ExpenseGroup> listDebt = List();
+    print(str);
+    List<ExpenseGroup> listGroup = List();
     if (str != null && str.isNotEmpty) {
       JsonCodec jsonCodec = JsonCodec();
       List listMap = jsonCodec.decode(str);
       listMap = listMap.map((map) {
-        ExpenseGroup debt = ExpenseGroup.fromJson(map);
-        return debt;
+        ExpenseGroup group = ExpenseGroup.fromJson(map);
+        print(group.listExpensePerson.length);
+        return group;
       }).toList();
 
-      listDebt = listMap;
+      listGroup = listMap;
     }
 
-    return listDebt;
+    return listGroup;
   }
 
 }

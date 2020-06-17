@@ -14,18 +14,24 @@ class ExpenseGroup {
   OnCalculationDone onCalculationChanged;
 
   ExpenseGroup({this.id, this.title = "", this.deliver = 0, this.discount = 0, this.listExpensePerson,this.onCalculationChanged}) {
-    id = id ?? (DateTime.now().millisecondsSinceEpoch / 1000).toInt();
+    id = id ?? DateTime.now().millisecondsSinceEpoch ~/ 1000;
     init();
   }
 
   factory ExpenseGroup.fromJson(Map<String, dynamic> json) {
-    return ExpenseGroup(
-      id: int.parse(json["id"]),
+    print(json["listExpensePerson"]);
+    List list = json["listExpensePerson"];
+    print("list = ${list.length}");
+    ExpenseGroup group = ExpenseGroup(
+      id: json["id"],
       title: json["title"],
-      deliver: double.parse(json["deliver"]),
-      discount: double.parse(json["discount"]),
-      listExpensePerson: List.of(json["listExpensePerson"]).map((map) => ExpensePerson.fromJson(map)).toList(),
+      deliver: json["deliver"],
+      discount: json["discount"],
+      listExpensePerson: list.map((map) => ExpensePerson.fromJson(map)).toList(),
     );
+
+    print("list = ${group.listExpensePerson.length}");
+    return group;
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +47,7 @@ class ExpenseGroup {
   init() {
     ExpensePerson expenseGroup = ExpensePerson(onCalculationChanged: onCalculationChanged);
 
-    listExpensePerson = [expenseGroup];
+    listExpensePerson = listExpensePerson ?? [expenseGroup];
     deliverController = TextEditingController(text: "");
     discountController = TextEditingController(text: "");
   }

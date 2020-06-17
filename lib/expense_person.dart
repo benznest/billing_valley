@@ -26,19 +26,20 @@ class ExpensePerson {
   bool isGetDiscount;
 
   ExpensePerson(
-      {this.id,this.icon = PersonIcon.GIRL_1,this.title="", this.total = 0, this.deliver = 0, this.discount = 0, this.onCalculationChanged, this.isPayDeliver = true, this.isGetDiscount = true}) {
+      {this.id,this.icon = PersonIcon.GIRL_1,this.title ="", this.total = 0, this.deliver = 0, this.discount = 0, this.onCalculationChanged, this.isPayDeliver = true, this.isGetDiscount = true}) {
     id = id ?? DateTime.now().millisecondsSinceEpoch ~/ 1000;
     init();
   }
 
   factory ExpensePerson.fromJson(Map<String, dynamic> json) {
+    print("x");
     return ExpensePerson(
       id: json["id"],
       icon: json["icon"],
       title: json["title"],
-      total: double.parse(json["total"]),
-      deliver: double.parse(json["deliver"]),
-      discount: double.parse(json["discount"]),
+      total:json["total"],
+      deliver: json["deliver"],
+      discount: json["discount"],
       isPayDeliver: json["isPayDeliver"],
       isGetDiscount: json["isGetDiscount"],
     );

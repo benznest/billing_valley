@@ -51,56 +51,56 @@ class SummaryDialog extends StatelessWidget {
                 SizedBox(
                   height: 16,
                 ),
-                GestureDetector(
-                  onTap: () {
-//                  Navigator.pop(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "สร้างกลุ่มใหม่",
-                            style: GoogleFonts.mitr(
-                                fontSize: 24, color: Colors.white),
-                          ),
-                        ]),
-                    decoration: BoxDecoration(
-                        color: Colors.blue[400],
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "บันทึกกลุ่ม",
-                            style: GoogleFonts.mitr(
-                                fontSize: 24, color: Colors.white),
-                          ),
-                        ]),
-                    decoration: BoxDecoration(
-                        color: Colors.pink[300],
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Container(height: 1,color: Colors.grey[200],),
-                SizedBox(
-                  height: 12,
-                ),
+//                GestureDetector(
+//                  onTap: () {
+////                  Navigator.pop(context);
+//                  },
+//                  child: Container(
+//                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
+//                    child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        children: [
+//                          Text(
+//                            "สร้างกลุ่มใหม่",
+//                            style: GoogleFonts.mitr(
+//                                fontSize: 24, color: Colors.white),
+//                          ),
+//                        ]),
+//                    decoration: BoxDecoration(
+//                        color: Colors.blue[400],
+//                        borderRadius: BorderRadius.circular(12)),
+//                  ),
+//                ),
+//                SizedBox(
+//                  height: 8,
+//                ),
+//                GestureDetector(
+//                  onTap: () {
+//                    Navigator.pop(context);
+//                  },
+//                  child: Container(
+//                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
+//                    child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        children: [
+//                          Text(
+//                            "บันทึกกลุ่ม",
+//                            style: GoogleFonts.mitr(
+//                                fontSize: 24, color: Colors.white),
+//                          ),
+//                        ]),
+//                    decoration: BoxDecoration(
+//                        color: Colors.pink[300],
+//                        borderRadius: BorderRadius.circular(12)),
+//                  ),
+//                ),
+//                SizedBox(
+//                  height: 12,
+//                ),
+//                Container(height: 1,color: Colors.grey[200],),
+//                SizedBox(
+//                  height: 12,
+//                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);

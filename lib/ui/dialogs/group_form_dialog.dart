@@ -15,18 +15,44 @@ class GroupPersonController {
   TextEditingController personNameController;
   String icon;
 
-  GroupPersonController({this.icon = PersonIcon.GIRL_1}) {
+  GroupPersonController(
+      {this.icon = PersonIcon.GIRL_1, String initTitle = ""}) {
     personNameController = TextEditingController();
+    personNameController.text = initTitle;
   }
 }
 
+enum GroupFormDialogMode { CREATE, UPDATE }
+
 class GroupFormDialog extends StatefulWidget {
+  final GroupFormDialogMode mode;
+  final ExpenseGroup initExpenseGroup;
   final Function(ExpenseGroup) onGroupPersonCreated;
+  final Function(ExpenseGroup) onGroupPersonUpdated;
 
-  GroupFormDialog({this.onGroupPersonCreated});
+  GroupFormDialog(
+      {this.mode = GroupFormDialogMode.CREATE,
+      this.initExpenseGroup,
+      this.onGroupPersonCreated,
+      this.onGroupPersonUpdated});
 
-  static show(BuildContext context, {Function(ExpenseGroup) onGroupPersonCreated}) {
-    showDialog(context: context, builder: (_) => GroupFormDialog(onGroupPersonCreated: onGroupPersonCreated));
+  static showCreate(BuildContext context,
+      {Function(ExpenseGroup) onGroupPersonCreated}) {
+    showDialog(
+        context: context,
+        builder: (_) => GroupFormDialog(
+            mode: GroupFormDialogMode.CREATE,
+            onGroupPersonCreated: onGroupPersonCreated));
+  }
+
+  static showUpdate(BuildContext context, ExpenseGroup group,
+      {Function(ExpenseGroup) onGroupPersonUpdated}) {
+    showDialog(
+        context: context,
+        builder: (_) => GroupFormDialog(
+            mode: GroupFormDialogMode.UPDATE,
+            initExpenseGroup: group,
+            onGroupPersonUpdated: onGroupPersonUpdated));
   }
 
   @override
@@ -42,7 +68,17 @@ class GroupFormDialogState extends State<GroupFormDialog> {
 
   @override
   void initState() {
-    listGroupPersonController = [GroupPersonController()];
+    if (widget.mode == GroupFormDialogMode.CREATE) {
+      listGroupPersonController = [GroupPersonController()];
+    } else {
+      _groupTitleController.text = widget.initExpenseGroup.title;
+      listGroupPersonController = [];
+      for (ExpensePerson person in widget.initExpenseGroup.listExpensePerson) {
+        listGroupPersonController.add(
+            GroupPersonController(initTitle: person.title, icon: person.icon));
+      }
+    }
+
     super.initState();
   }
 
@@ -56,22 +92,35 @@ class GroupFormDialogState extends State<GroupFormDialog> {
             width: 500,
             height: MediaQuery.of(context).size.height * 0.7,
             padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(12)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("สร้างกลุ่ม", style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
+                Text(
+                    widget.mode == GroupFormDialogMode.CREATE
+                        ? "สร้างกลุ่ม"
+                        : "แก้ไขกลุ่ม",
+                    style: GoogleFonts.mitr(
+                        color: Colors.grey[600], fontSize: 36)),
                 SizedBox(
                   height: 8,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("ชื่อกลุ่ม", style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 18)),
+                    Text("ชื่อกลุ่ม",
+                        style: GoogleFonts.mitr(
+                            color: Colors.grey[600], fontSize: 18)),
                     Row(
                       children: [
                         Expanded(
-                            child: MyTextField.build(controller: _groupTitleController, fontSize: 22, textAlign: TextAlign.center, hintText: "..", background: Colors.grey[100])),
+                            child: MyTextField.build(
+                                controller: _groupTitleController,
+                                fontSize: 22,
+                                textAlign: TextAlign.center,
+                                hintText: "..",
+                                background: Colors.grey[100])),
                       ],
                     ),
                   ],
@@ -89,7 +138,10 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                           controller: scrollController,
                           itemCount: listGroupPersonController.length,
                           itemBuilder: (context, index) {
-                            return buildRowPerson(listGroupPersonController[index], onIconSelected: (icon) {
+                            return buildRowPerson(
+                                listGroupPersonController[index],
+                                enableRemove: listGroupPersonController.length >
+                                    1, onIconSelected: (icon) {
                               setState(() {
                                 listGroupPersonController[index].icon = icon;
                               });
@@ -104,12 +156,19 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                           alignment: Alignment.bottomRight,
                           child: FloatingActionButton.extended(
                             icon: Icon(Icons.add),
-                            label: Text("เพิ่มคน", style: GoogleFonts.mitr(color: Colors.white, fontSize: 18)),
+                            label: Text("เพิ่มคน",
+                                style: GoogleFonts.mitr(
+                                    color: Colors.white, fontSize: 18)),
                             backgroundColor: Colors.purple[300],
                             onPressed: () {
                               setState(() {
-                                listGroupPersonController.add(GroupPersonController());
-                                scrollController.animateTo(scrollController.position.maxScrollExtent + 100, duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+                                listGroupPersonController
+                                    .add(GroupPersonController());
+                                scrollController.animateTo(
+                                    scrollController.position.maxScrollExtent +
+                                        100,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.decelerate);
                               });
                             },
                           ),
@@ -128,13 +187,21 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text(
-                        "สร้าง",
-                        style: GoogleFonts.mitr(fontSize: 24, color: Colors.white),
-                      ),
-                    ]),
-                    decoration: BoxDecoration(color: Colors.pink[300], borderRadius: BorderRadius.circular(12)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.mode == GroupFormDialogMode.CREATE
+                                ? "สร้าง"
+                                : "บันทึก",
+                            style: GoogleFonts.mitr(
+                                fontSize: 24, color: Colors.white),
+                          ),
+                        ]),
+                    decoration: BoxDecoration(
+                        color:  widget.mode == GroupFormDialogMode.CREATE
+                            ? Colors.pink[300] : Colors.orange,
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                 )
               ],
@@ -143,7 +210,10 @@ class GroupFormDialogState extends State<GroupFormDialog> {
     );
   }
 
-  buildRowPerson(GroupPersonController groupPersonController, {Function() onRemove, Function(String) onIconSelected}) {
+  buildRowPerson(GroupPersonController groupPersonController,
+      {bool enableRemove = true,
+      Function() onRemove,
+      Function(String) onIconSelected}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       padding: EdgeInsets.only(bottom: 4),
@@ -169,7 +239,10 @@ class GroupFormDialogState extends State<GroupFormDialog> {
               },
               child: Container(
                   padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(color: Colors.grey[50], border: Border.all(color: Colors.grey[200], width: 1), borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      border: Border.all(color: Colors.grey[200], width: 1),
+                      borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -188,26 +261,37 @@ class GroupFormDialogState extends State<GroupFormDialog> {
               width: 16,
             ),
             Expanded(
-              child:
-                  MyTextField.build(controller: groupPersonController.personNameController, fontSize: 22, textAlign: TextAlign.center, hintText: "ชื่อ", background: Colors.white),
+              child: MyTextField.build(
+                  controller: groupPersonController.personNameController,
+                  fontSize: 22,
+                  textAlign: TextAlign.center,
+                  hintText: "ชื่อ",
+                  background: Colors.white),
             ),
             SizedBox(
               width: 16,
             ),
             GestureDetector(
               onTap: () {
-                if (onRemove != null) {
-                  onRemove();
+                if (enableRemove) {
+                  if (onRemove != null) {
+                    onRemove();
+                  }
                 }
               },
-              child: Container(
-                padding: EdgeInsets.all(6),
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 32,
+              child: Opacity(
+                opacity: enableRemove ? 1 : 0.2,
+                child: Container(
+                  padding: EdgeInsets.all(6),
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.red[200],
+                      borderRadius: BorderRadius.circular(6)),
                 ),
-                decoration: BoxDecoration(color: Colors.red[200], borderRadius: BorderRadius.circular(6)),
               ),
             ),
             SizedBox(
@@ -220,18 +304,38 @@ class GroupFormDialogState extends State<GroupFormDialog> {
   }
 
   save() async {
-    ExpenseGroup group = ExpenseGroup();
+    ExpenseGroup group;
+    if (widget.mode == GroupFormDialogMode.CREATE) {
+      group = ExpenseGroup();
+    }else{
+      group = widget.initExpenseGroup;
+    }
+
     String title = _groupTitleController.text;
     group.title = title;
 
+    group.listExpensePerson = [];
+    int id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     for (GroupPersonController controller in listGroupPersonController) {
-      group.listExpensePerson.add(ExpensePerson(title: controller.personNameController.text, icon: controller.icon));
+      group.listExpensePerson.add(ExpensePerson(
+          id: id,
+          title: controller.personNameController.text,
+          icon: controller.icon));
+      id++;
     }
 
-    await ExpenseGroupStorage.add(group);
+    if (widget.mode == GroupFormDialogMode.CREATE) {
+      await ExpenseGroupStorage.add(group);
 
-    if (widget.onGroupPersonCreated != null) {
-      widget.onGroupPersonCreated(group);
+      if (widget.onGroupPersonCreated != null) {
+        widget.onGroupPersonCreated(group);
+      }
+    }else{
+      await ExpenseGroupStorage.update(group);
+
+      if (widget.onGroupPersonUpdated != null) {
+        widget.onGroupPersonUpdated(group);
+      }
     }
   }
 }
