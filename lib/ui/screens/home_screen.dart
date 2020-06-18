@@ -8,6 +8,7 @@ import 'package:fluttershareexpense/ui/dialogs/choose_group_dialog.dart';
 import 'package:fluttershareexpense/ui/dialogs/group_form_dialog.dart';
 import 'package:fluttershareexpense/ui/dialogs/my_about_dialog.dart';
 import 'package:fluttershareexpense/ui/dialogs/summary_dialog.dart';
+import 'package:fluttershareexpense/ui/widgets/expense_mode_segmented_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_person_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_header_widget.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_total_widget.dart';
@@ -47,15 +48,21 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    if (ScreenManager.get(context) == ScreenType.SMALL || ScreenManager.get(context) == ScreenType.EXTRA_SMALL) {
+      return Scaffold(
+          body: Center(
+              child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("ขออภัย", style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
+          Text("แอปพลิเคชันไม่รองรับในขนาดหน้าจอนี้", style: GoogleFonts.mitr(color: Colors.grey[500], fontSize: 24)),
+        ],
+      )));
+    }
+
     return Scaffold(
-//      backgroundColor: Color(0xffecf0f1),
-//      appBar: AppBar(
-//        centerTitle: true,
-//        backgroundColor: Color(0xffbdc3c7),
-//        elevation: 0,
-//        title: Text("หารค่าอาหาร",
-//            style: GoogleFonts.mitr(color: Colors.white, fontSize: 20)),
-//      ),
       body: Column(
         children: [
           buildChooseExpenseGroup(),
@@ -78,102 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 16,
                     ),
-                    MyCard(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/food_delivery.png",
-                                      width: 60,
-                                    ),
-                                    SizedBox(
-                                      width: 16,
-                                    ),
-                                    Text(
-                                      "ค่าส่ง",
-                                      style: GoogleFonts.mitr(fontSize: 20),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                    SizedBox(
-                                      width: 16,
-                                    ),
-                                    Expanded(
-                                        child: MyTextField.build(
-                                            controller: expenseGroup.deliverController,
-                                            fontSize: 22,
-                                            textAlign: TextAlign.center,
-                                            hintText: "0",
-                                            onChanged: (text) {
-                                              double deliver = double.tryParse(text) ?? 0;
-                                              expenseGroup.deliver = deliver;
-                                              expenseGroup.calculate();
-                                            })),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      "บาท",
-                                      style: GoogleFonts.mitr(fontSize: 20),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 32,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/sale.png",
-                                      width: 60,
-                                    ),
-                                    SizedBox(
-                                      width: 16,
-                                    ),
-                                    Text(
-                                      "ส่วนลด",
-                                      style: GoogleFonts.mitr(fontSize: 20),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                    SizedBox(
-                                      width: 16,
-                                    ),
-                                    Expanded(
-                                        child: MyTextField.build(
-                                            controller: expenseGroup.discountController,
-                                            fontSize: 22,
-                                            textAlign: TextAlign.center,
-                                            hintText: "0",
-                                            onChanged: (text) {
-                                              double discount = double.tryParse(text) ?? 0;
-                                              expenseGroup.discount = discount;
-                                              expenseGroup.calculate();
-                                            })),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      "บาท",
-                                      style: GoogleFonts.mitr(fontSize: 20),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            "ค่าส่งและส่วนลดจะถูกหารเท่ากันทุกคน",
-                            style: GoogleFonts.mitr(fontSize: 14, color: Colors.grey[400]),
-                          ),
-                        ])),
+                    Row(
+                      children: [
+                        Expanded(child: buildDeliveryCostCard()),
+                        SizedBox(width: 32,),
+                        Expanded(child: buildDiscountCard()),  
+                      ],
+                    ),
                     SizedBox(
                       height: 32,
                     ),
@@ -262,6 +180,124 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Widget buildDeliveryCostCard() {
+    return MyCard(
+        borderRadius: BorderRadius.circular(12),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Row(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/icons/food_delivery.png",
+                      width: 60,
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Text(
+                      "ค่าส่ง",
+                      style: GoogleFonts.mitr(fontSize: 20),
+                      textAlign: TextAlign.end,
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                        child: MyTextField.build(
+                            controller: expenseGroup.deliverController,
+                            fontSize: 22,
+                            textAlign: TextAlign.center,
+                            hintText: "0",
+                            onChanged: (text) {
+                              double deliver = double.tryParse(text) ?? 0;
+                              expenseGroup.deliver = deliver;
+                              expenseGroup.calculate();
+                            })),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      "บาท",
+                      style: GoogleFonts.mitr(fontSize: 20),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Container(width: 280,child: ExpenseModeSegmentWidget(initMode: expenseGroup.deliverMode,onModeChanged: (mode){
+                      setState(() {
+                        expenseGroup.deliverMode = mode;
+                        expenseGroup.calculate();
+                      });
+                    },))
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ]));
+  }
+
+  Widget buildDiscountCard() {
+    return MyCard(
+        borderRadius: BorderRadius.circular(12),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Row(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/icons/sale.png",
+                      width: 60,
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Text(
+                      "ส่วนลด",
+                      style: GoogleFonts.mitr(fontSize: 20),
+                      textAlign: TextAlign.end,
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                        child: MyTextField.build(
+                            controller: expenseGroup.discountController,
+                            fontSize: 22,
+                            textAlign: TextAlign.center,
+                            hintText: "0",
+                            onChanged: (text) {
+                              double discount = double.tryParse(text) ?? 0;
+                              expenseGroup.discount = discount;
+                              expenseGroup.calculate();
+                            })),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      "บาท",
+                      style: GoogleFonts.mitr(fontSize: 20),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Container(width: 280,child: ExpenseModeSegmentWidget(initMode: expenseGroup.discountMode,onModeChanged: (mode){
+                      setState(() {
+                        expenseGroup.discountMode = mode;
+                        expenseGroup.calculate();
+                      });
+                    },)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ]));
   }
 
   Widget buildChooseExpenseGroup() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_person.dart';
 import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/ui/dialogs/group_form_dialog.dart';
+import 'package:fluttershareexpense/utils/format_uitl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../expense_group.dart';
@@ -163,11 +164,11 @@ class SummaryDialog extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
-                  color: Colors.red[300].withOpacity(0.3),
+                  color: Colors.red[100],
                   borderRadius: BorderRadius.circular(12)),
               child: Row(
                 children: [
-                  Text("${expenseGroup.total}",
+                  Text("${FormatUtil.value(expenseGroup.total)}",
                       style: GoogleFonts.mitr(
                           color: Colors.red[500], fontSize: 20)),
                   SizedBox(width: 6),

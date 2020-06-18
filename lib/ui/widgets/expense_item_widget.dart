@@ -12,11 +12,7 @@ class ExpenseItemWidget extends StatelessWidget {
   final Function(ExpenseItemController, double) onPriceChanged;
   final Function(ExpenseItemController, int) onAmountChanged;
 
-  ExpenseItemWidget(this.index, this.expenseItemController,
-      {this.enableRemove = true,
-      this.onRemoveItem,
-      this.onAmountChanged,
-      this.onPriceChanged});
+  ExpenseItemWidget(this.index, this.expenseItemController, {this.enableRemove = true, this.onRemoveItem, this.onAmountChanged, this.onPriceChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +34,7 @@ class ExpenseItemWidget extends StatelessWidget {
                   SizedBox(
                     width: 16,
                   ),
-                  Expanded(
-                      child: MyTextField.build(
-                          controller: expenseItemController.nameController,
-                          fontSize: 22,
-                          textAlign: TextAlign.center,
-                          hintText: "..")),
+                  Expanded(child: MyTextField.build(controller: expenseItemController.nameController, fontSize: 22, textAlign: TextAlign.center, hintText: "..")),
                   SizedBox(
                     width: 16,
                   ),
@@ -86,6 +77,9 @@ class ExpenseItemWidget extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     expenseItemController.decreaseAmount();
+                    if (onAmountChanged != null) {
+                      onAmountChanged(expenseItemController, expenseItemController.expenseItem.amount);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(6),
@@ -94,9 +88,7 @@ class ExpenseItemWidget extends StatelessWidget {
                       color: Colors.white,
                       size: 32,
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[300],
-                        borderRadius: BorderRadius.circular(6)),
+                    decoration: BoxDecoration(color: Colors.orange[300], borderRadius: BorderRadius.circular(6)),
                   ),
                 ),
                 SizedBox(
@@ -119,6 +111,9 @@ class ExpenseItemWidget extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     expenseItemController.increaseAmount();
+                    if (onAmountChanged != null) {
+                      onAmountChanged(expenseItemController, expenseItemController.expenseItem.amount);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(6),
@@ -127,9 +122,7 @@ class ExpenseItemWidget extends StatelessWidget {
                       color: Colors.white,
                       size: 32,
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.blue[300],
-                        borderRadius: BorderRadius.circular(6)),
+                    decoration: BoxDecoration(color: Colors.blue[300], borderRadius: BorderRadius.circular(6)),
                   ),
                 ),
                 SizedBox(
@@ -147,11 +140,7 @@ class ExpenseItemWidget extends StatelessWidget {
                   ),
                   Expanded(
                       child: MyTextField.build(
-                          controller: expenseItemController.sumController,
-                          fontSize: 22,
-                          textAlign: TextAlign.center,
-                          readOnly: true,
-                          theme: MyTextFieldTheme.primary())),
+                          controller: expenseItemController.sumController, fontSize: 22, textAlign: TextAlign.center, readOnly: true, theme: MyTextFieldTheme.primary())),
                   SizedBox(
                     width: 8,
                   ),
@@ -167,9 +156,7 @@ class ExpenseItemWidget extends StatelessWidget {
                   color: Colors.white,
                   size: 32,
                 ),
-                decoration: BoxDecoration(
-                    color: Colors.red[300],
-                    borderRadius: BorderRadius.circular(6)),
+                decoration: BoxDecoration(color: Colors.red[300], borderRadius: BorderRadius.circular(6)),
               ),
             )
           else
@@ -180,9 +167,7 @@ class ExpenseItemWidget extends StatelessWidget {
                 color: Colors.white,
                 size: 32,
               ),
-              decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(6)),
+              decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(6)),
             )
         ],
       ),
