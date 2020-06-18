@@ -25,32 +25,51 @@ class ChooseIconDialog extends StatelessWidget {
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(12)),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            spacing: 12,
-            runSpacing: 12,
-            children: [
-              for (String id in PersonIcon.icons)
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (onIconSelected != null) {
-                      onIconSelected(id);
-                    }
-                  },
-                  child: Container(
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Image.asset(
-                        PersonIcon.getAsset(id),
-                        width: 80,
-                      )),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("หญิง",
+                    style: GoogleFonts.mitr(
+                        color: Colors.grey[600], fontSize: 22)),
+                buildIcons(context, PersonIcon.girls),
+                SizedBox(
+                  height: 16,
                 ),
-            ],
-          ),
+                Text("ชาย",
+                    style: GoogleFonts.mitr(
+                        color: Colors.grey[600], fontSize: 22)),
+                buildIcons(context, PersonIcon.boys),
+              ]),
         ));
+  }
+
+  buildIcons(BuildContext context, List<String> listIcon) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      alignment: WrapAlignment.center,
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        for (String id in listIcon)
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+              if (onIconSelected != null) {
+                onIconSelected(id);
+              }
+            },
+            child: Container(
+                padding: EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(12)),
+                child: Image.asset(
+                  PersonIcon.getAsset(id),
+                  width: 80,
+                )),
+          ),
+      ],
+    );
   }
 }
