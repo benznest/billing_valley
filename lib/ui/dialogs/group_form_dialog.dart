@@ -200,7 +200,7 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                         ]),
                     decoration: BoxDecoration(
                         color:  widget.mode == GroupFormDialogMode.CREATE
-                            ? Colors.pink[300] : Colors.orange,
+                            ? Colors.pink[300] : Colors.orange[300],
                         borderRadius: BorderRadius.circular(12)),
                   ),
                 )

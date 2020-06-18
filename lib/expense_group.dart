@@ -27,7 +27,11 @@ class ExpenseGroup {
       title: json["title"],
       deliver: json["deliver"],
       discount: json["discount"],
-      listExpensePerson: list.map((map) => ExpensePerson.fromJson(map)).toList(),
+      listExpensePerson: list.map((map){
+        var person = ExpensePerson.fromJson(map);
+        person.init();
+        return person;
+      }).toList(),
     );
 
     print("list = ${group.listExpensePerson.length}");

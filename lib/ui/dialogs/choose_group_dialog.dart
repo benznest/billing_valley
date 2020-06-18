@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_group_storage.dart';
 import 'package:fluttershareexpense/expense_person.dart';
 import 'package:fluttershareexpense/person_icon.dart';
+import 'package:fluttershareexpense/screen_manager.dart';
 import 'package:fluttershareexpense/ui/dialogs/choose_icon_dialog.dart';
 import 'package:fluttershareexpense/ui/dialogs/group_form_dialog.dart';
 import 'package:fluttershareexpense/ui/widgets/my_text_field.dart';
@@ -17,12 +18,8 @@ class ChooseGroupDialog extends StatefulWidget {
 
   ChooseGroupDialog({this.onGroupPersonSelected});
 
-  static show(BuildContext context,
-      {Function(ExpenseGroup) onGroupPersonSelected}) {
-    showDialog(
-        context: context,
-        builder: (_) =>
-            ChooseGroupDialog(onGroupPersonSelected: onGroupPersonSelected));
+  static show(BuildContext context, {Function(ExpenseGroup) onGroupPersonSelected}) {
+    showDialog(context: context, builder: (_) => ChooseGroupDialog(onGroupPersonSelected: onGroupPersonSelected));
   }
 
   @override
@@ -39,22 +36,28 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
       child: Dialog(
           backgroundColor: Colors.transparent,
           child: Container(
-            width: 700,
+            width: ScreenManager.responsive(
+              context,
+              xs: width * 0.9,
+              sm: width * 0.9,
+              md: width * 0.9,
+              lg: width * 0.7,
+              xl: width *0.5,
+              value: width * 0.7,
+            ),
             height: MediaQuery.of(context).size.height * 0.7,
             padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("เลือกกลุ่ม",
-                    style: GoogleFonts.mitr(
-                        color: Colors.grey[600], fontSize: 36)),
+                Text("เลือกกลุ่ม", style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
                 SizedBox(
                   height: 8,
                 ),
@@ -66,21 +69,38 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           List<ExpenseGroup> list = snapshot.data;
-                          return ListView.builder(
-                            itemCount: list.length,
-                            itemBuilder: (context, index) {
-                              return buildRowGroup(list[index]);
-                            },
-                          );
-                        } else if(snapshot.hasError){
+                          if (list.isNotEmpty) {
+                            return ListView.builder(
+                              itemCount: list.length,
+                              itemBuilder: (context, index) {
+                                return buildRowGroup(list[index]);
+                              },
+                            );
+                          } else {
+                            return Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "ไม่มีข้อมูล",
+                                    style: GoogleFonts.mitr(fontSize: 28, color: Colors.grey[600]),
+                                  ),
+                                  Text(
+                                    "ดูเหมือนว่าคุณยังไม่ได้สร้างกลุ่มนะ",
+                                    style: GoogleFonts.mitr(fontSize: 18, color: Colors.grey[500]),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        } else if (snapshot.hasError) {
                           return Center(
                             child: Text(
                               snapshot.error.toString(),
-                              style: GoogleFonts.mitr(
-                                  fontSize: 16, color: Colors.red[400]),
+                              style: GoogleFonts.mitr(fontSize: 16, color: Colors.red[400]),
                             ),
                           );
-                        }else{
+                        } else {
                           return Container();
                         }
                       },
@@ -93,7 +113,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
     );
   }
 
- Widget buildRowGroup(ExpenseGroup group) {
+  Widget buildRowGroup(ExpenseGroup group) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       padding: EdgeInsets.only(bottom: 4),
@@ -116,36 +136,30 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                   width: 8,
                 ),
                 Expanded(
-                  child: Text(group.title,
-                      style: GoogleFonts.mitr(
-                          fontSize: 24, color: Colors.grey[600])),
+                  child: Text(group.title, style: GoogleFonts.mitr(fontSize: 24, color: Colors.grey[600])),
                 ),
                 GestureDetector(
                   onTap: () {
-                    GroupFormDialog.showUpdate(context,
-                        group,
-                        onGroupPersonUpdated: (group) {
-                          setState(() {
-                            //
-                          });
-                        });
+                    GroupFormDialog.showUpdate(context, group, onGroupPersonUpdated: (group) {
+                      setState(() {
+                        //
+                      });
+                    });
                   },
                   child: Container(
                     width: 100,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.edit,color: Colors.white,),
-                          Text(
-                            "แก้ไข",
-                            style: GoogleFonts.mitr(
-                                fontSize: 16, color: Colors.white),
-                          ),
-                        ]),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[300],
-                        borderRadius: BorderRadius.circular(12)),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "แก้ไข",
+                        style: GoogleFonts.mitr(fontSize: 16, color: Colors.white),
+                      ),
+                    ]),
+                    decoration: BoxDecoration(color: Colors.orange[300], borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
                 SizedBox(
@@ -154,26 +168,22 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                 GestureDetector(
                   onTap: () async {
                     await ExpenseGroupStorage.delete(group);
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Container(
                     width: 100,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.close,color: Colors.white,),
-                          Text(
-                            "ลบ",
-                            style: GoogleFonts.mitr(
-                                fontSize: 16, color: Colors.white),
-                          ),
-                        ]),
-                    decoration: BoxDecoration(
-                        color: Colors.red[300],
-                        borderRadius: BorderRadius.circular(12)),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "ลบ",
+                        style: GoogleFonts.mitr(fontSize: 16, color: Colors.white),
+                      ),
+                    ]),
+                    decoration: BoxDecoration(color: Colors.red[300], borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
                 SizedBox(
@@ -182,26 +192,24 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
-                    if(widget.onGroupPersonSelected != null){
+                    if (widget.onGroupPersonSelected != null) {
                       widget.onGroupPersonSelected(group);
                     }
                   },
                   child: Container(
                     width: 100,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.check,color: Colors.white,),
-                          Text(
-                            "เลือก",
-                            style: GoogleFonts.mitr(
-                                fontSize: 16, color: Colors.white),
-                          ),
-                        ]),
-                    decoration: BoxDecoration(
-                        color: Colors.green[300],
-                        borderRadius: BorderRadius.circular(12)),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "เลือก",
+                        style: GoogleFonts.mitr(fontSize: 16, color: Colors.white),
+                      ),
+                    ]),
+                    decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(12)),
                   ),
                 )
               ],
@@ -216,8 +224,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                     spacing: 6,
                     runSpacing: 6,
                     children: [
-                      for(ExpensePerson person in group.listExpensePerson)
-                      buildPerson(person),
+                      for (ExpensePerson person in group.listExpensePerson) buildPerson(person),
                     ],
                   ),
                 ),
@@ -255,10 +262,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
   Widget buildPerson(ExpensePerson person) {
     return Container(
       padding: EdgeInsets.all(6),
-      decoration: BoxDecoration(
-          color: Colors.grey[50],
-          border: Border.all(color: Colors.grey[200], width: 1),
-          borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: Colors.grey[50], border: Border.all(color: Colors.grey[200], width: 1), borderRadius: BorderRadius.circular(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -269,8 +273,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
           SizedBox(
             height: 6,
           ),
-          Text(person.title,
-              style: GoogleFonts.mitr(fontSize: 14, color: Colors.grey[600]))
+          Text(person.title, style: GoogleFonts.mitr(fontSize: 14, color: Colors.grey[600]))
         ],
       ),
     );

@@ -32,8 +32,7 @@ class ExpensePerson {
   }
 
   factory ExpensePerson.fromJson(Map<String, dynamic> json) {
-    print("x");
-    return ExpensePerson(
+    ExpensePerson person = ExpensePerson(
       id: json["id"],
       icon: json["icon"],
       title: json["title"],
@@ -43,6 +42,7 @@ class ExpensePerson {
       isPayDeliver: json["isPayDeliver"],
       isGetDiscount: json["isGetDiscount"],
     );
+    return person;
   }
 
 
@@ -70,7 +70,7 @@ class ExpensePerson {
     deliverPersonController = TextEditingController(text: "-");
     discountPersonController = TextEditingController(text: "-");
     sumExpenseController = TextEditingController(text: "-");
-    titlePersonController = TextEditingController(text: "");
+    titlePersonController = TextEditingController(text: title);
   }
 
   String get titlePerson => titlePersonController.text;

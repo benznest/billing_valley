@@ -5,6 +5,7 @@ enum ScreenType {
   SMALL,
   MEDIUM,
   LARGE,
+  EXTRA_LARGE,
 }
 
 class ScreenManager {
@@ -16,12 +17,14 @@ class ScreenManager {
       return ScreenType.SMALL;
     } else if (width <= 1200) {
       return ScreenType.MEDIUM;
-    } else {
+    } else if (width <= 1800) {
       return ScreenType.LARGE;
+    } else {
+      return ScreenType.EXTRA_LARGE;
     }
   }
 
-  static double responsive(BuildContext context, {double value = 0, double xs, double sm, double, md, double lg}) {
+  static double responsive(BuildContext context, {double value = 0, double xs, double sm, double, md, double lg, double xl}) {
     ScreenType type = get(context);
     if (type == ScreenType.EXTRA_SMALL) {
       return xs ?? value;
@@ -31,8 +34,10 @@ class ScreenManager {
       return md ?? value;
     } else if (type == ScreenType.LARGE) {
       return lg ?? value;
+    } else if (type == ScreenType.EXTRA_LARGE) {
+      return xl ?? value;
     } else {
-      return 0;
+      return value;
     }
   }
 }
