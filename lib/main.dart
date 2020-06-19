@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttershareexpense/my_application.dart';
 import 'package:fluttershareexpense/ui/screens/home_screen.dart';
 import 'package:fluttershareexpense/ui/screens/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await MyApplication.init();
   runApp(MyApp());
 }
 

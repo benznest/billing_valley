@@ -3,6 +3,8 @@ import 'package:fluttershareexpense/expense_item.dart';
 import 'package:fluttershareexpense/expense_item_controller.dart';
 import 'package:fluttershareexpense/expense_person.dart';
 import 'package:fluttershareexpense/hand_cursor.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
+import 'package:fluttershareexpense/my_application.dart';
 import 'package:fluttershareexpense/screen_manager.dart';
 import 'package:fluttershareexpense/ui/dialogs/choose_group_dialog.dart';
 import 'package:fluttershareexpense/ui/dialogs/group_form_dialog.dart';
@@ -56,8 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("ขออภัย", style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
-          Text("แอปพลิเคชันไม่รองรับในขนาดหน้าจอนี้", style: GoogleFonts.mitr(color: Colors.grey[500], fontSize: 24)),
+          Text(MyLanguage.dictionary["sorry"], style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
+          Text(MyLanguage.dictionary["not_support_this_screen_size"], style: GoogleFonts.mitr(color: Colors.grey[500], fontSize: 24)),
         ],
       )));
     }
@@ -65,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         children: [
-          buildChooseExpenseGroup(),
+          buildNavBar(),
           Expanded(
             child: Stack(
               children: [
@@ -88,8 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         Expanded(child: buildDeliveryCostCard()),
-                        SizedBox(width: 32,),
-                        Expanded(child: buildDiscountCard()),  
+                        SizedBox(
+                          width: 32,
+                        ),
+                        Expanded(child: buildDiscountCard()),
                       ],
                     ),
                     SizedBox(
@@ -105,7 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                         },
                         onDelete: () {
-                          expenseGroup.deleteExpensePerson(i);
+                          setState(() {
+                            expenseGroup.deleteExpensePerson(i);
+                          });
                         },
                       ),
                     SizedBox(
@@ -131,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 6,
                               ),
                               Text(
-                                "เพิ่มคน",
+                                MyLanguage.dictionary["add_person"],
                                 style: GoogleFonts.mitr(fontSize: 24, color: Colors.white),
                               ),
                               SizedBox(
@@ -173,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color(0xfff1c40f),
           elevation: 0,
           icon: Icon(Icons.check),
-          label: Text("สรุปผล", style: GoogleFonts.mitr(color: Colors.white, fontSize: 18)),
+          label: Text(MyLanguage.dictionary["summary"], style: GoogleFonts.mitr(color: Colors.white, fontSize: 18)),
           onPressed: () {
             SummaryDialog.show(context, expenseGroup);
           },
@@ -199,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 16,
                     ),
                     Text(
-                      "ค่าส่ง",
+                      MyLanguage.dictionary["delivery_cost"],
                       style: GoogleFonts.mitr(fontSize: 20),
                       textAlign: TextAlign.end,
                     ),
@@ -217,22 +223,27 @@ class _HomeScreenState extends State<HomeScreen> {
                               expenseGroup.deliver = deliver;
                               expenseGroup.calculate();
                             })),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      "บาท",
-                      style: GoogleFonts.mitr(fontSize: 20),
-                    ),
+//                    SizedBox(
+//                      width: 8,
+//                    ),
+//                    Text(
+//                      "บาท",
+//                      style: GoogleFonts.mitr(fontSize: 20),
+//                    ),
                     SizedBox(
                       width: 16,
                     ),
-                    Container(width: 220,child: ExpenseModeSegmentWidget(initMode: expenseGroup.deliverMode,onModeChanged: (mode){
-                      setState(() {
-                        expenseGroup.deliverMode = mode;
-                        expenseGroup.calculate();
-                      });
-                    },))
+                    Container(
+                        width: 220,
+                        child: ExpenseModeSegmentWidget(
+                          initMode: expenseGroup.deliverMode,
+                          onModeChanged: (mode) {
+                            setState(() {
+                              expenseGroup.deliverMode = mode;
+                              expenseGroup.calculate();
+                            });
+                          },
+                        ))
                   ],
                 ),
               ),
@@ -258,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 16,
                     ),
                     Text(
-                      "ส่วนลด",
+                      MyLanguage.dictionary["discount"],
                       style: GoogleFonts.mitr(fontSize: 20),
                       textAlign: TextAlign.end,
                     ),
@@ -276,22 +287,27 @@ class _HomeScreenState extends State<HomeScreen> {
                               expenseGroup.discount = discount;
                               expenseGroup.calculate();
                             })),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      "บาท",
-                      style: GoogleFonts.mitr(fontSize: 20),
-                    ),
+//                    SizedBox(
+//                      width: 8,
+//                    ),
+//                    Text(
+//                      "บาท",
+//                      style: GoogleFonts.mitr(fontSize: 20),
+//                    ),
                     SizedBox(
                       width: 16,
                     ),
-                    Container(width: 220,child: ExpenseModeSegmentWidget(initMode: expenseGroup.discountMode,onModeChanged: (mode){
-                      setState(() {
-                        expenseGroup.discountMode = mode;
-                        expenseGroup.calculate();
-                      });
-                    },)),
+                    Container(
+                        width: 220,
+                        child: ExpenseModeSegmentWidget(
+                          initMode: expenseGroup.discountMode,
+                          onModeChanged: (mode) {
+                            setState(() {
+                              expenseGroup.discountMode = mode;
+                              expenseGroup.calculate();
+                            });
+                          },
+                        )),
                   ],
                 ),
               ),
@@ -300,15 +316,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ]));
   }
 
-  Widget buildChooseExpenseGroup() {
+  Widget buildNavBar() {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: Colors.grey[100], width: 2))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Spacer(),
           Text(
-            "กลุ่ม",
+            MyLanguage.dictionary["group"],
             style: GoogleFonts.mitr(fontSize: 20),
             textAlign: TextAlign.end,
           ),
@@ -331,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      expenseGroup.title.isNotEmpty ? expenseGroup.title : "ไม่มีกลุ่ม",
+                      expenseGroup.title.isNotEmpty ? expenseGroup.title : MyLanguage.dictionary["unknown"],
                       style: GoogleFonts.mitr(fontSize: 18),
                     ),
                     Icon(
@@ -365,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.pink[400],
                     ),
                     Text(
-                      "สร้างกลุ่ม",
+                      MyLanguage.dictionary["create_group"],
                       style: GoogleFonts.mitr(fontSize: 18, color: Colors.pink[400]),
                     ),
                   ],
@@ -392,8 +409,51 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.grey[600],
                     ),
                     Text(
-                      "ล้างข้อมูล",
+                      MyLanguage.dictionary["clear"],
                       style: GoogleFonts.mitr(fontSize: 18, color: Colors.grey[600]),
+                    ),
+                  ],
+                )),
+          ),
+          Spacer(),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                MyLanguage.changeLanguage(MyLanguage.THAI);
+              });
+            },
+            child: Container(
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                decoration: BoxDecoration(color: MyApplication.currentLanguage == MyLanguage.THAI ? Colors.orange[400] : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "ไทย",
+                      style: GoogleFonts.mitr(fontSize: 16, color: MyApplication.currentLanguage == MyLanguage.THAI ? Colors.white : Colors.grey[600]),
+                    ),
+                  ],
+                )),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                MyLanguage.changeLanguage(MyLanguage.ENGLISH);
+              });
+            },
+            child: Container(
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                decoration:
+                    BoxDecoration(color: MyApplication.currentLanguage == MyLanguage.ENGLISH ? Colors.orange[400] : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "English",
+                      style: GoogleFonts.mitr(fontSize: 16, color: MyApplication.currentLanguage == MyLanguage.ENGLISH ? Colors.white : Colors.grey[600]),
                     ),
                   ],
                 )),

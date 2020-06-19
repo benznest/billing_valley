@@ -52,7 +52,6 @@ class ExpenseGroupStorage{
       List listMap = jsonCodec.decode(str);
       listMap = listMap.map((map) {
         ExpenseGroup group = ExpenseGroup.fromJson(map);
-        print(group.listExpensePerson.length);
         return group;
       }).toList();
 

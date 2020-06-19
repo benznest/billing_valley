@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_group_storage.dart';
 import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/screen_manager.dart';
 import 'package:fluttershareexpense/ui/dialogs/choose_icon_dialog.dart';
@@ -57,7 +58,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("เลือกกลุ่ม", style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
+                Text(   MyLanguage.dictionary["choose_group"], style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
                 SizedBox(
                   height: 8,
                 ),
@@ -81,12 +82,11 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
-                                    "ไม่มีข้อมูล",
+                                  Text(   MyLanguage.dictionary["no_data"],
                                     style: GoogleFonts.mitr(fontSize: 28, color: Colors.grey[600]),
                                   ),
                                   Text(
-                                    "ดูเหมือนว่าคุณยังไม่ได้สร้างกลุ่มนะ",
+                                    MyLanguage.dictionary["no_group_yet"],
                                     style: GoogleFonts.mitr(fontSize: 18, color: Colors.grey[500]),
                                   ),
                                 ],
@@ -136,7 +136,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                   width: 8,
                 ),
                 Expanded(
-                  child: Text(group.title, style: GoogleFonts.mitr(fontSize: 24, color: Colors.grey[600])),
+                  child: Text(group.title.isNotEmpty ? group.title : MyLanguage.dictionary["unknown"], style: GoogleFonts.mitr(fontSize: 24, color: Colors.grey[600])),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -155,7 +155,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                         color: Colors.white,
                       ),
                       Text(
-                        "แก้ไข",
+                        MyLanguage.dictionary["edit"],
                         style: GoogleFonts.mitr(fontSize: 16, color: Colors.white),
                       ),
                     ]),
@@ -179,7 +179,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                         color: Colors.white,
                       ),
                       Text(
-                        "ลบ",
+                        MyLanguage.dictionary["remove"],
                         style: GoogleFonts.mitr(fontSize: 16, color: Colors.white),
                       ),
                     ]),
@@ -205,7 +205,7 @@ class ChooseGroupDialogState extends State<ChooseGroupDialog> {
                         color: Colors.white,
                       ),
                       Text(
-                        "เลือก",
+                        MyLanguage.dictionary["select"],
                         style: GoogleFonts.mitr(fontSize: 16, color: Colors.white),
                       ),
                     ]),

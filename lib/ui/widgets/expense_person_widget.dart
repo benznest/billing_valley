@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/ui/dialogs/choose_icon_dialog.dart';
 import 'package:fluttershareexpense/ui/widgets/expense_item_header_widget.dart';
@@ -17,11 +18,7 @@ class ExpensePersonWidget extends StatelessWidget {
   final Function() onChanged;
   final Function() onDelete;
 
-  ExpensePersonWidget(
-      {@required this.expensePerson,
-      this.onChanged,
-      this.enableDeleteExpensePerson = true,
-      this.onDelete});
+  ExpensePersonWidget({@required this.expensePerson, this.onChanged, this.enableDeleteExpensePerson = true, this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +29,26 @@ class ExpensePersonWidget extends StatelessWidget {
         children: <Widget>[
           Row(children: [
             GestureDetector(
-              onTap: (){
-                ChooseIconDialog.show(context,onIconSelected: (newIcon){
+              onTap: () {
+                ChooseIconDialog.show(context, onIconSelected: (newIcon) {
                   expensePerson.icon = newIcon;
                   update();
                 });
               },
               child: Container(
-                padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12)),
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     children: [
                       Image.asset(
                         PersonIcon.getAsset(expensePerson.icon),
                         width: 50,
                       ),
-                      Icon(Icons.arrow_drop_down,size: 36,color: Colors.grey[500],)
+                      Icon(
+                        Icons.arrow_drop_down,
+                        size: 36,
+                        color: Colors.grey[500],
+                      )
                     ],
                   )),
             ),
@@ -57,19 +56,14 @@ class ExpensePersonWidget extends StatelessWidget {
               width: 8,
             ),
             Text(
-              "ชื่อ",
+              MyLanguage.dictionary["name"],
               style: GoogleFonts.mitr(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             SizedBox(
               width: 16,
             ),
-            Expanded(
-                child: MyTextField.build(
-                    controller: expensePerson.titlePersonController,
-                    fontSize: 22,
-                    textAlign: TextAlign.center,
-                    hintText: "..")),
+            Expanded(child: MyTextField.build(controller: expensePerson.titlePersonController, fontSize: 22, textAlign: TextAlign.center, hintText: "..")),
             Spacer(),
             GestureDetector(
               onTap: () {
@@ -90,17 +84,14 @@ class ExpensePersonWidget extends StatelessWidget {
                       size: 32,
                     ),
                     Text(
-                      "ลบ",
-                      style:
-                          GoogleFonts.mitr(fontSize: 20, color: Colors.white),
+                      MyLanguage.dictionary["remove"],
+                      style: GoogleFonts.mitr(fontSize: 20, color: Colors.white),
                     ),
                     SizedBox(
                       width: 8,
                     )
                   ]),
-                  decoration: BoxDecoration(
-                      color: Colors.red[300],
-                      borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: Colors.red[300], borderRadius: BorderRadius.circular(12)),
                 ),
               ),
             ),
@@ -120,9 +111,7 @@ class ExpensePersonWidget extends StatelessWidget {
             height: 8,
           ),
           for (int i = 0; i < expensePerson.listExpenseItemController.length; i++)
-            ExpenseItemWidget(i, expensePerson.listExpenseItemController[i],
-                enableRemove: expensePerson.listExpenseItemController.length > 1,
-                onPriceChanged: (controller, price) {
+            ExpenseItemWidget(i, expensePerson.listExpenseItemController[i], enableRemove: expensePerson.listExpenseItemController.length > 1, onPriceChanged: (controller, price) {
               controller.expenseItem.price = price;
               controller.calculate();
               update();
@@ -132,6 +121,7 @@ class ExpensePersonWidget extends StatelessWidget {
               update();
             }, onRemoveItem: () {
               expensePerson.removeItem(i);
+              update();
             }),
           SizedBox(
             height: 16,
@@ -150,16 +140,14 @@ class ExpensePersonWidget extends StatelessWidget {
                   size: 32,
                 ),
                 Text(
-                  "เพิ่มรายการ",
+                  MyLanguage.dictionary["add_item"],
                   style: GoogleFonts.mitr(fontSize: 20, color: Colors.white),
                 ),
                 SizedBox(
                   width: 8,
                 )
               ]),
-              decoration: BoxDecoration(
-                  color: Colors.green[300],
-                  borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: Colors.green[300], borderRadius: BorderRadius.circular(12)),
             ),
           ),
           SizedBox(

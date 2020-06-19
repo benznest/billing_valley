@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:fluttershareexpense/ui/widgets/my_checkbox.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,7 +24,7 @@ class ExpenseItemTotalWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "รวมค่าอาหาร",
+                    MyLanguage.dictionary["total_food_expenses"],
                     style: GoogleFonts.mitr(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
@@ -63,7 +64,7 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                       width: 6,
                     ),
                     Text(
-                      "จ่ายค่าส่ง",
+                      MyLanguage.dictionary["pay_shipping"],
                       style: GoogleFonts.mitr(fontSize: 18),
                       textAlign: TextAlign.center,
                     )
@@ -107,7 +108,7 @@ class ExpenseItemTotalWidget extends StatelessWidget {
                       width: 6,
                     ),
                     Text(
-                      "ได้ส่วนลด",
+                      MyLanguage.dictionary["get_discount"],
                       style: GoogleFonts.mitr(fontSize: 18),
                       textAlign: TextAlign.center,
                     )
@@ -137,7 +138,7 @@ class ExpenseItemTotalWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "สุทธิ",
+                    MyLanguage.dictionary["net_total"],
                     style: GoogleFonts.mitr(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),

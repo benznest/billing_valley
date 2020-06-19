@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExpenseMode {
@@ -32,10 +33,10 @@ class _ExpenseModeSegmentWidgetState extends State<ExpenseModeSegmentWidget> {
       child: Row(
         children: [
           Expanded(
-            child: buildSegment(title: "หารเท่ากัน", mode: ExpenseMode.EQUAL),
+            child: buildSegment(title: MyLanguage.dictionary["equally"], mode: ExpenseMode.EQUAL),
           ),
           Expanded(
-            child: buildSegment(title: "ตามสัดส่วน", mode: ExpenseMode.RATIO),
+            child: buildSegment(title: MyLanguage.dictionary["ratio"], mode: ExpenseMode.RATIO),
           ),
         ],
       ),

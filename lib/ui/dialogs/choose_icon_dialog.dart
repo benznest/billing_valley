@@ -29,16 +29,10 @@ class ChooseIconDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("หญิง",
-                    style: GoogleFonts.mitr(
-                        color: Colors.grey[600], fontSize: 22)),
                 buildIcons(context, PersonIcon.girls),
                 SizedBox(
                   height: 16,
                 ),
-                Text("ชาย",
-                    style: GoogleFonts.mitr(
-                        color: Colors.grey[600], fontSize: 22)),
                 buildIcons(context, PersonIcon.boys),
               ]),
         ));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/my_application.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,7 +37,7 @@ class MyAboutDialog extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                "developed by",
+                MyLanguage.dictionary["developed_by"],
                 style: GoogleFonts.mitr(color: Colors.grey[500], fontSize: 14),
                 textAlign: TextAlign.center,
               ),
@@ -49,7 +50,7 @@ class MyAboutDialog extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                "View source code on Github",
+                MyLanguage.dictionary["view_source_github"],
                 style: GoogleFonts.mitr(color: Colors.grey[600], fontSize: 14),
                 textAlign: TextAlign.center,
               ),
@@ -76,7 +77,7 @@ class MyAboutDialog extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 6, horizontal: 32),
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
-                      "ปิด",
+                      MyLanguage.dictionary["close"],
                       style: GoogleFonts.mitr(fontSize: 24, color: Colors.white),
                     ),
                   ]),

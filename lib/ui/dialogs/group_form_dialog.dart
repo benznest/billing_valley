@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_group_storage.dart';
 import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/ui/dialogs/choose_icon_dialog.dart';
 import 'package:fluttershareexpense/ui/widgets/my_text_field.dart';
@@ -99,8 +100,8 @@ class GroupFormDialogState extends State<GroupFormDialog> {
               children: [
                 Text(
                     widget.mode == GroupFormDialogMode.CREATE
-                        ? "สร้างกลุ่ม"
-                        : "แก้ไขกลุ่ม",
+                        ? MyLanguage.dictionary["create_group"]
+                        : MyLanguage.dictionary["edit_group"],
                     style: GoogleFonts.mitr(
                         color: Colors.grey[600], fontSize: 36)),
                 SizedBox(
@@ -109,7 +110,7 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("ชื่อกลุ่ม",
+                    Text(MyLanguage.dictionary["group_name"],
                         style: GoogleFonts.mitr(
                             color: Colors.grey[600], fontSize: 18)),
                     Row(
@@ -156,7 +157,7 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                           alignment: Alignment.bottomRight,
                           child: FloatingActionButton.extended(
                             icon: Icon(Icons.add),
-                            label: Text("เพิ่มคน",
+                            label: Text(MyLanguage.dictionary["add_person"],
                                 style: GoogleFonts.mitr(
                                     color: Colors.white, fontSize: 18)),
                             backgroundColor: Colors.purple[300],
@@ -192,8 +193,8 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                         children: [
                           Text(
                             widget.mode == GroupFormDialogMode.CREATE
-                                ? "สร้าง"
-                                : "บันทึก",
+                                ? MyLanguage.dictionary["create"]
+                                : MyLanguage.dictionary["save"],
                             style: GoogleFonts.mitr(
                                 fontSize: 24, color: Colors.white),
                           ),
@@ -265,7 +266,7 @@ class GroupFormDialogState extends State<GroupFormDialog> {
                   controller: groupPersonController.personNameController,
                   fontSize: 22,
                   textAlign: TextAlign.center,
-                  hintText: "ชื่อ",
+                  hintText: MyLanguage.dictionary["name"],
                   background: Colors.white),
             ),
             SizedBox(

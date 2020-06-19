@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fluttershareexpense/expense_person.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:fluttershareexpense/person_icon.dart';
 import 'package:fluttershareexpense/ui/dialogs/group_form_dialog.dart';
 import 'package:fluttershareexpense/utils/format_uitl.dart';
@@ -29,13 +30,13 @@ class SummaryDialog extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(16),
             width: 500,
-            height: MediaQuery.of(context).size.height*0.6,
+            height: MediaQuery.of(context).size.height*0.8,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(12)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("สรุปผล",
+                Text(MyLanguage.dictionary["summary"],
                     style:
                         GoogleFonts.mitr(color: Colors.grey[600], fontSize: 36)),
                 SizedBox(
@@ -112,7 +113,7 @@ class SummaryDialog extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "ปิด",
+                            MyLanguage.dictionary["close"],
                             style: GoogleFonts.mitr(
                                 fontSize: 24, color: Colors.white),
                           ),
@@ -157,7 +158,7 @@ class SummaryDialog extends StatelessWidget {
               width: 16,
             ),
             Expanded(
-              child: Text(expenseGroup.titlePerson.isNotEmpty ? expenseGroup.titlePerson : "ไม่มีชื่อ",
+              child: Text(expenseGroup.titlePerson.isNotEmpty ? expenseGroup.titlePerson : MyLanguage.dictionary["unknown"],
                   style:
                       GoogleFonts.mitr(color: Colors.grey[600], fontSize: 20)),
             ),
@@ -171,10 +172,10 @@ class SummaryDialog extends StatelessWidget {
                   Text("${FormatUtil.value(expenseGroup.total)}",
                       style: GoogleFonts.mitr(
                           color: Colors.red[500], fontSize: 20)),
-                  SizedBox(width: 6),
-                  Text("บาท",
-                      style: GoogleFonts.mitr(
-                          color: Colors.red[500], fontSize: 14)),
+//                  SizedBox(width: 6),
+//                  Text("บาท",
+//                      style: GoogleFonts.mitr(
+//                          color: Colors.red[500], fontSize: 14)),
                 ],
               ),
             )

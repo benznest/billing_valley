@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttershareexpense/languages/my_language.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExpenseItemHeaderWidget extends StatelessWidget {
@@ -11,35 +12,35 @@ class ExpenseItemHeaderWidget extends StatelessWidget {
           Container(
               constraints: BoxConstraints(minWidth: 32),
               child: Text(
-                "ลำดับ",
+                MyLanguage.dictionary["number"],
                 style: GoogleFonts.mitr(fontSize: 16),
                 textAlign: TextAlign.end,
               )),
           Expanded(
               flex: 1,
               child: Text(
-                "ชื่อรายการอาหาร",
+                MyLanguage.dictionary["item_name"],
                 style: GoogleFonts.mitr(fontSize: 16),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 1,
               child: Text(
-                "ราคาต่อหน่วย",
+                MyLanguage.dictionary["price_unit"],
                 style: GoogleFonts.mitr(fontSize: 16),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 1,
               child: Text(
-                "จำนวน",
+                MyLanguage.dictionary["amount"],
                 style: GoogleFonts.mitr(fontSize: 16),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 1,
               child: Text(
-                "รวม",
+                MyLanguage.dictionary["total"],
                 style: GoogleFonts.mitr(fontSize: 16),
                 textAlign: TextAlign.center,
               )),
