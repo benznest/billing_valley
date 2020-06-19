@@ -60,7 +60,7 @@ class _ExpenseModeSegmentWidgetState extends State<ExpenseModeSegmentWidget> {
           child: Center(
             child: Text(
               title,
-              style: GoogleFonts.mitr(fontSize: 16, color: selected ? Colors.white : Colors.grey[600]),
+              style: GoogleFonts.mitr(fontSize: 14, color: selected ? Colors.white : Colors.grey[600]),
             ),
           )),
     );

@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    if (ScreenManager.get(context) == ScreenType.SMALL || ScreenManager.get(context) == ScreenType.EXTRA_SMALL) {
+    if (ScreenManager.get(context) == ScreenType.EXTRA_SMALL) {
       return Scaffold(
           body: Center(
               child: Column(
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Image.asset(
                       "assets/icons/food_delivery.png",
-                      width: 60,
+                      width: 40,
                     ),
                     SizedBox(
                       width: 16,
@@ -227,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       width: 16,
                     ),
-                    Container(width: 280,child: ExpenseModeSegmentWidget(initMode: expenseGroup.deliverMode,onModeChanged: (mode){
+                    Container(width: 220,child: ExpenseModeSegmentWidget(initMode: expenseGroup.deliverMode,onModeChanged: (mode){
                       setState(() {
                         expenseGroup.deliverMode = mode;
                         expenseGroup.calculate();
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Image.asset(
                       "assets/icons/sale.png",
-                      width: 60,
+                      width: 40,
                     ),
                     SizedBox(
                       width: 16,
@@ -286,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       width: 16,
                     ),
-                    Container(width: 280,child: ExpenseModeSegmentWidget(initMode: expenseGroup.discountMode,onModeChanged: (mode){
+                    Container(width: 220,child: ExpenseModeSegmentWidget(initMode: expenseGroup.discountMode,onModeChanged: (mode){
                       setState(() {
                         expenseGroup.discountMode = mode;
                         expenseGroup.calculate();
