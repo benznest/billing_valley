@@ -65,114 +65,132 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          buildNavBar(),
-          Expanded(
-            child: Stack(
-              children: [
-                ListView(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 36,
-                      horizontal: ScreenManager.responsive(
-                        context,
-                        xs: width * 0.05,
-                        sm: width * 0.05,
-                        md: width * 0.05,
-                        lg: width * 0.05,
-                        xl: width * 0.1,
-                        value: width * 0.3,
-                      )),
-                  children: [
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: buildDeliveryCostCard()),
-                        SizedBox(
-                          width: 32,
-                        ),
-                        Expanded(child: buildDiscountCard()),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    for (int i = 0; i < expenseGroup.listExpensePerson.length; i++)
-                      ExpensePersonWidget(
-                        expensePerson: expenseGroup.listExpensePerson[i],
-                        enableDeleteExpensePerson: expenseGroup.listExpensePerson.length > 1,
-                        onChanged: () {
-                          setState(() {
-                            expenseGroup.calculate();
-                          });
-                        },
-                        onDelete: () {
-                          setState(() {
-                            expenseGroup.deleteExpensePerson(i);
-                          });
-                        },
+      body: Column(children: [
+        buildNavBar(),
+        Expanded(
+            child: Stack(children: [
+          ListView.builder(
+              padding: EdgeInsets.symmetric(
+                  vertical: 36,
+                  horizontal: ScreenManager.responsive(
+                    context,
+                    xs: width * 0.05,
+                    sm: width * 0.05,
+                    md: width * 0.05,
+                    lg: width * 0.05,
+                    xl: width * 0.1,
+                    value: width * 0.3,
+                  )),
+              itemCount: expenseGroup.listExpensePerson.length + 1,
+              itemBuilder: (context, index) {
+                if (index < expenseGroup.listExpensePerson.length) {
+                  return ExpensePersonWidget(
+                    expensePerson: expenseGroup.listExpensePerson[index],
+                    enableDeleteExpensePerson: expenseGroup.listExpensePerson.length > 1,
+                    onChanged: () {
+                      setState(() {
+                        expenseGroup.calculate();
+                      });
+                    },
+                    onDelete: () {
+                      setState(() {
+                        expenseGroup.deleteExpensePerson(index);
+                      });
+                    },
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 16,
                       ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            expenseGroup.addExpensePerson();
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 120),
-                            child: Row(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 36,
-                              ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                MyLanguage.dictionary["add_person"],
-                                style: GoogleFonts.mitr(fontSize: 24, color: Colors.white),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              )
-                            ]),
-                            decoration: BoxDecoration(color: Colors.purple[300], borderRadius: BorderRadius.circular(12)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              expenseGroup.addExpensePerson();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 120),
+                              child: Row(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 36,
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  MyLanguage.dictionary["add_person"],
+                                  style: GoogleFonts.mitr(fontSize: 24, color: Colors.white),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                )
+                              ]),
+                              decoration: BoxDecoration(color: Colors.purple[300], borderRadius: BorderRadius.circular(12)),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50,
-                    )
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.all(16.0),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton(
-                          heroTag: "about",
-                          child: Icon(
-                            Icons.info,
-                          ),
-                          onPressed: () {
-                            MyAboutDialog.show(context);
-                          },
-                          backgroundColor: Colors.blue[300])),
-                )
-              ],
-            ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 100,
+                      ),
+                    ],
+                  );
+                }
+              }),
+          SizedBox(
+            height: 50,
           ),
-        ],
-      ),
+          Container(
+            margin: EdgeInsets.all(16.0),
+            child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                    heroTag: "about",
+                    child: Icon(
+                      Icons.info,
+                    ),
+                    onPressed: () {
+                      MyAboutDialog.show(context);
+                    },
+                    backgroundColor: Colors.blue[300])),
+          ),
+          Container(
+              margin: EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      initGroup(ExpenseGroup());
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(12)),
+                      child: Row(mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.refresh,
+                            size: 36,
+                            color: Colors.grey[600],
+                          ),
+                          Text(
+                            MyLanguage.dictionary["clear"],
+                            style: GoogleFonts.mitr(fontSize: 18, color: Colors.grey[600]),
+                          ),
+                        ],
+                      )),
+                ),
+              )),
+        ]))
+      ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: HandCursor(
         child: FloatingActionButton.extended(
@@ -318,145 +336,146 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildNavBar() {
     return Container(
-      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: Colors.grey[100], width: 2))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Spacer(),
-          Text(
-            MyLanguage.dictionary["group"],
-            style: GoogleFonts.mitr(fontSize: 20),
-            textAlign: TextAlign.end,
+          MyCard(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(),
+                Text(
+                  MyLanguage.dictionary["group"],
+                  style: GoogleFonts.mitr(fontSize: 20),
+                  textAlign: TextAlign.end,
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    ChooseGroupDialog.show(context, onGroupPersonSelected: (group) {
+                      setState(() {
+                        initGroup(group);
+                      });
+                    });
+                  },
+                  child: Container(
+                      constraints: BoxConstraints(minWidth: 300),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                      decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            expenseGroup.title.isNotEmpty ? expenseGroup.title : MyLanguage.dictionary["unknown"],
+                            style: GoogleFonts.mitr(fontSize: 18),
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            size: 36,
+                            color: Colors.grey[500],
+                          )
+                        ],
+                      )),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    GroupFormDialog.showCreate(context, onGroupPersonCreated: (group) {
+                      setState(() {
+                        initGroup(group);
+                      });
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                      decoration: BoxDecoration(color: Colors.pink[50], borderRadius: BorderRadius.circular(12)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            size: 36,
+                            color: Colors.pink[400],
+                          ),
+                          Text(
+                            MyLanguage.dictionary["create_group"],
+                            style: GoogleFonts.mitr(fontSize: 18, color: Colors.pink[400]),
+                          ),
+                        ],
+                      )),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      MyLanguage.changeLanguage(MyLanguage.THAI);
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                      decoration:
+                          BoxDecoration(color: MyApplication.currentLanguage == MyLanguage.THAI ? Colors.orange[400] : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "ไทย",
+                            style: GoogleFonts.mitr(fontSize: 16, color: MyApplication.currentLanguage == MyLanguage.THAI ? Colors.white : Colors.grey[600]),
+                          ),
+                        ],
+                      )),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      MyLanguage.changeLanguage(MyLanguage.ENGLISH);
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: MyApplication.currentLanguage == MyLanguage.ENGLISH ? Colors.orange[400] : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "English",
+                            style: GoogleFonts.mitr(fontSize: 16, color: MyApplication.currentLanguage == MyLanguage.ENGLISH ? Colors.white : Colors.grey[600]),
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ),
           ),
           SizedBox(
-            width: 16,
+            height: 8,
           ),
-          GestureDetector(
-            onTap: () {
-              ChooseGroupDialog.show(context, onGroupPersonSelected: (group) {
-                setState(() {
-                  initGroup(group);
-                });
-              });
-            },
-            child: Container(
-                constraints: BoxConstraints(minWidth: 300),
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      expenseGroup.title.isNotEmpty ? expenseGroup.title : MyLanguage.dictionary["unknown"],
-                      style: GoogleFonts.mitr(fontSize: 18),
-                    ),
-                    Icon(
-                      Icons.arrow_drop_down,
-                      size: 36,
-                      color: Colors.grey[500],
-                    )
-                  ],
-                )),
+          Row(
+            children: [
+              SizedBox(
+                width: 32,
+              ),
+              Expanded(child: buildDeliveryCostCard()),
+              SizedBox(
+                width: 32,
+              ),
+              Expanded(child: buildDiscountCard()),
+              SizedBox(
+                width: 32,
+              ),
+            ],
           ),
           SizedBox(
-            width: 16,
-          ),
-          GestureDetector(
-            onTap: () {
-              GroupFormDialog.showCreate(context, onGroupPersonCreated: (group) {
-                setState(() {
-                  initGroup(group);
-                });
-              });
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                decoration: BoxDecoration(color: Colors.pink[50], borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 36,
-                      color: Colors.pink[400],
-                    ),
-                    Text(
-                      MyLanguage.dictionary["create_group"],
-                      style: GoogleFonts.mitr(fontSize: 18, color: Colors.pink[400]),
-                    ),
-                  ],
-                )),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                initGroup(ExpenseGroup());
-              });
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.refresh,
-                      size: 36,
-                      color: Colors.grey[600],
-                    ),
-                    Text(
-                      MyLanguage.dictionary["clear"],
-                      style: GoogleFonts.mitr(fontSize: 18, color: Colors.grey[600]),
-                    ),
-                  ],
-                )),
-          ),
-          Spacer(),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                MyLanguage.changeLanguage(MyLanguage.THAI);
-              });
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                decoration: BoxDecoration(color: MyApplication.currentLanguage == MyLanguage.THAI ? Colors.orange[400] : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "ไทย",
-                      style: GoogleFonts.mitr(fontSize: 16, color: MyApplication.currentLanguage == MyLanguage.THAI ? Colors.white : Colors.grey[600]),
-                    ),
-                  ],
-                )),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                MyLanguage.changeLanguage(MyLanguage.ENGLISH);
-              });
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                decoration:
-                    BoxDecoration(color: MyApplication.currentLanguage == MyLanguage.ENGLISH ? Colors.orange[400] : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "English",
-                      style: GoogleFonts.mitr(fontSize: 16, color: MyApplication.currentLanguage == MyLanguage.ENGLISH ? Colors.white : Colors.grey[600]),
-                    ),
-                  ],
-                )),
+            height: 16,
           ),
         ],
       ),
