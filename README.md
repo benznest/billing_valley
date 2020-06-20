@@ -1,6 +1,7 @@
-# Billing Valley (Base on Flutter Web)
+# Billing Valley 
 
 Web apps calculate delivery cost and discount.
+developed with Flutter Web.
 
 ## Getting Started
 
@@ -9,3 +10,6 @@ Web apps calculate delivery cost and discount.
 ![Billing Valley ](screenshots/1.png)
 ![Billing Valley ](screenshots/2.png)
 ![Billing Valley ](screenshots/3.png)
+![Billing Valley ](screenshots/4.png)
+
+Cr. Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/).
